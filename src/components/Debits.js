@@ -1,4 +1,7 @@
 // src/components/Debits.js
+import React, {Component} from 'react';
+//import {Link} from 'react-router-dom';
+
 
 const Debits = (props) => {
 	let debitsView = () => {
