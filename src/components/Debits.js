@@ -1,27 +1,59 @@
 // src/components/Debits.js
 import React, {Component} from 'react';
-//import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
+class Debits extends Component {
+  constructor(props) {  
+    super(props);
+    this.submitIt = this.submitIt.bind(this);
 
-const Debits = (props) => {
-	let debitsView = () => {
-    const { debits } = props;
-    return debits.map((debit) => {
-      let date = debit.date.slice(0,10);
-      return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
-    }) 
   }
-  return (
-    <div>
-      <h1>Debits</h1>
-      {debitsView()}
-      <form onSubmit={props.addDebit}>
-        <input type="text" name="description" />
-        <input type="number" name="amount" />
-        <button type="submit">Add Debit</button>
-      </form>
-    </div>
-  )
+
+
+
+//Once submit button event occurs, update debit information
+submitIt(event){
+    event.preventDefault();
+       let temp = [event.target.dDesc.value, event.target.dAmount.value, new Date().toLocaleString()]
+  
+        this.props.addDebit(Number(event.target.dAmount.value));
+        this.props.addDebitInfo(temp)      
+
+}
+
+  render() {
+
+    return (
+        <div >
+            <Link to="/">Return to Home</Link>
+          
+            <div style={{margin:"10%"}}>
+            <h1>Debits</h1>
+            <h2 >
+            ${(Math.round(this.props.debitAmount* 100) / 100).toFixed(2)} 
+            </h2>
+            
+          <form  onSubmit={this.submitIt}>    
+            <input type='text' name="dDesc" placeholder="Description" />
+            <input type='text'  name="dAmount" placeholder="Amount"/>
+            <button>Submit</button>
+            </form>
+
+
+        <div class="col-md-1 text-center"> 
+            
+                {this.props.debitInfo.map ((x , index) =>
+                      <div key = {index} style={{border:"2px black solid"}}>
+                        <p class="list-group-item"  > Description: {x[0]}</p>   
+                        <p  class="list-group-item"> Amount: ${x[1]} </p>
+                        <p  class="list-group-item "> Date:  {x[2]} </p>
+                          </div>)}  
+                </div>                   
+            </div>
+        </div>
+    );
+  }
 }
 
 export default Debits;
+
